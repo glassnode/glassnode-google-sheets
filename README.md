@@ -1,12 +1,31 @@
-# Glassnode for Google Sheets
+# `glassnode-google-sheets`
+
+[![CI](https://github.com/glassnode/glassnode-google-sheets/actions/workflows/ci.yml/badge.svg)](https://github.com/glassnode/glassnode-google-sheets/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 Custom functions that pull Glassnode metrics into a Google Sheet, modelled on
 the [Glassnode Excel add-in](https://github.com/glassnode/glassnode-excel).
 
+![A Google Sheet with a daily BTC price table, an OHLC table, a price chart built from the data, and the Glassnode sidebar](docs/images/overview.png)
+
+One formula per table: the results are ordinary numbers and dates, so charts,
+pivot tables and other formulas work on them directly.
+
 > **Status:** development build. It runs as a script bound to a test
 > spreadsheet and is not published to the Google Workspace Marketplace.
-> Production is the default environment, but its Auth0 application does not
-> exist yet; see [Environments](#environments).
+> Production is the default environment; see [Environments](#environments).
+
+## Contents
+
+- [Functions](#functions)
+- [Signing in](#signing-in)
+- [Refreshing data](#refreshing-data)
+- [Caching and rate limits](#caching-and-rate-limits)
+- [Development](#development)
+- [Known limitations](#known-limitations)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
 
 ## Functions
 
@@ -46,6 +65,8 @@ Lists the asset IDs available on Glassnode, one per row.
 =GN_METRIC("ETH", "/distribution/balance_exchanges", "2025-07-20", "2025-07-25", "e=binance")
 ```
 
+![GN_METRIC returning the close, high, low and open of an OHLC metric as separate columns](docs/images/multi-field.png)
+
 Values are real numbers and dates, so they work in charts and arithmetic.
 
 **Sub-daily timestamps:** Sheets displays a date-time returned by a formula as
@@ -53,6 +74,8 @@ a date only. The time is there; format the column with
 *Format → Number → Date time* to see it.
 
 ## Signing in
+
+<img src="docs/images/sidebar.png" alt="The Glassnode sidebar, signed in, with the refresh actions and example formulas" width="262" align="right">
 
 Open **Extensions → Glassnode → Open**, click **Sign in**, confirm the code in
 the tab that opens and log in to Glassnode. There is no API-key option.
@@ -105,17 +128,7 @@ in the menu and the sidebar re-run formulas on demand:
 
 ## Development
 
-Requirements: Node.js 18+ and [`clasp`](https://github.com/google/clasp),
-logged in with a Google account that can edit the Apps Script project.
-
-```sh
-npm test       # unit tests for the pure helpers in src/Lib.js
-clasp push     # upload src/ to the Apps Script project in .clasp.json
-```
-
-`.clasp.json` points at the dev spreadsheet's bound script. To work on your own
-copy, run `clasp create-script --type sheets --rootDir src` and restore
-`src/appsscript.json` afterwards, because `clasp` overwrites it.
+Setup, commands and releases are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Environments
 
@@ -167,3 +180,15 @@ Each environment needs its own Auth0 application. See
 - In a script bound to a spreadsheet, as in this development setup, any editor
   can open the script editor and read the stored session. A published add-on
   keeps its storage private to the add-on; this has not been verified yet.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md): development setup, tests and releases.
+
+## Support
+
+Questions and bugs: GitHub Issues. Vulnerabilities: see [SECURITY.md](SECURITY.md).
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).

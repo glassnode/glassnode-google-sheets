@@ -15,9 +15,7 @@ var GN_ENVIRONMENTS_ = {
     authDomain: 'https://auth.glassnode.com',
     audience: 'https://api.glassnode.com',
     apiBase: 'https://api.glassnode.com',
-    // TODO: client ID of the "Glassnode Google Sheets" application in the
-    // production Auth0 tenant. See docs/auth0-setup.md.
-    clientId: '',
+    clientId: 'cMsa6uNSkDw9aKTWeDeX9uwub9AB20Ay',
   },
   dev: {
     authDomain: 'https://auth.glassnode.tech',

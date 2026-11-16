@@ -2,24 +2,25 @@
 
 The add-on signs users in with the OAuth 2.0 **device authorization flow**. Each
 environment needs one Auth0 application for it. The dev tenant already has one;
-this page describes how to create the same thing in another tenant, and was
-written for production.
+this page describes how to create the same thing in another tenant. It was
+written for production, where the application now exists too.
 
 | | Dev | Production |
 |---|---|---|
 | Auth0 tenant | `glassnode-dev.eu.auth0.com` | `glassnode.eu.auth0.com` |
 | Auth domain | `auth.glassnode.tech` | `auth.glassnode.com` |
 | API identifier (audience) | `https://api.glassnode.tech` | `https://api.glassnode.com` |
-| Application | "Glassnode Google Sheets" (`BkaKaI7ptCrahjfrmybSfBcpmXrNurGl`) | to be created |
+| Application | "Glassnode Google Sheets" (`BkaKaI7ptCrahjfrmybSfBcpmXrNurGl`) | "Glassnode Google Sheets" (`cMsa6uNSkDw9aKTWeDeX9uwub9AB20Ay`) |
 
-## What is already in place in production
+## What was already in place in production
 
-Checked read-only on 2026-11-11; nothing here needs changing.
+Checked read-only on 2026-11-11, before the application was created; nothing here
+needed changing.
 
 - The API `https://api.glassnode.com` has **Allow Offline Access** on, so it
   issues refresh tokens. Access tokens last 7 days.
 - `auth.glassnode.com` advertises the device authorization endpoint.
-- No production application has the Device Code grant yet, so this will be the
+- No production application had the Device Code grant, so the add-on is the
   first use of the device flow on the production tenant.
 - The tenant has no default audience. The add-on always sends `audience`, so
   that is fine.
@@ -144,3 +145,11 @@ Created on 2026-11-10 with the request above against
 `glassnode-dev.eu.auth0.com`, then verified with the four calls in step 5: the
 dev API returned 200 for the asset list and a metric, the refresh succeeded
 and returned no new refresh token, and an invalid token got 401.
+
+## Reference: the production application
+
+Created on 2026-11-16 with the same request against `glassnode.eu.auth0.com`.
+Auth0 enabled `google-oauth2` and `Username-Password-Authentication` for it
+automatically, the same two as the Glassnode CLI application, and
+`https://auth.glassnode.com/oauth/device/code` accepts its client ID. The
+remaining calls in step 5 need a person to approve the sign-in.
