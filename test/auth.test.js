@@ -41,7 +41,7 @@ function load(onRefresh) {
   // An expired session for account A.
   Object.assign(props, {
     GN_ACCESS_TOKEN: 'access-a1', GN_REFRESH_TOKEN: 'refresh-a', GN_EXPIRES_AT: '1',
-    GN_USER: 'a@example.test', GN_SESSION_ID: 'session-a',
+    GN_USER: 'a@example.test', GN_SESSION_ID: 'session-a', GN_SESSION_ENV: 'prod',
   });
   return {ctx, props};
 }

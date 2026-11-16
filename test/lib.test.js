@@ -128,6 +128,16 @@ test('rate limit headers', () => {
   });
 });
 
+test('environment selection', () => {
+  const known = ['prod', 'dev'];
+  assert.strictEqual(lib.gnPickEnvironment_('', known, 'prod'), 'prod');
+  assert.strictEqual(lib.gnPickEnvironment_(null, known, 'prod'), 'prod');
+  assert.strictEqual(lib.gnPickEnvironment_(undefined, known, 'prod'), 'prod');
+  assert.strictEqual(lib.gnPickEnvironment_(' DEV ', known, 'prod'), 'dev');
+  assert.strictEqual(lib.gnPickEnvironment_('prod', known, 'prod'), 'prod');
+  assert.throws(() => lib.gnPickEnvironment_('staging', known, 'prod'), /Unknown GN_ENV "staging"/);
+});
+
 test('metric path: plain API paths only', () => {
   assert.ok(lib.gnIsMetricPath_('/market/price_usd_close'));
   assert.ok(lib.gnIsMetricPath_('/derivatives/futures-open_interest_sum'));

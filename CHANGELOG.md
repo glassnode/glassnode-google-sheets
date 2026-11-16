@@ -3,6 +3,20 @@
 All notable changes, newest first. Format: [Keep a Changelog](https://keepachangelog.com/),
 versions: [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-11-16
+
+### Added
+
+- Environments: `src/Config.js` defines `prod` and `dev`. A deployment opts in to dev with
+  the script property `GN_ENV=dev`; an unknown value is an error. The sidebar shows the
+  environment when it is not production.
+
+### Changed
+
+- Production (`auth.glassnode.com`, `api.glassnode.com`) is the default environment.
+- A session is tied to the environment that issued it, so switching environments signs
+  the spreadsheet out.
+
 ## [0.1.1] - 2026-11-11
 
 ### Fixed

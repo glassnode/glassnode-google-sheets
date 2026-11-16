@@ -184,6 +184,23 @@ function gnParseRateLimit_(headers, nowMs) {
 }
 
 /**
+ * Choose the environment: the requested one when it exists, else the default.
+ * An unknown name is an error rather than a silent fall-back, so a typo in
+ * the GN_ENV script property cannot quietly point a dev deployment at
+ * production.
+ */
+function gnPickEnvironment_(requested, known, fallback) {
+  var name = String(requested === null || requested === undefined ? '' : requested)
+    .trim()
+    .toLowerCase();
+  if (!name) return fallback;
+  if (known.indexOf(name) === -1) {
+    throw new Error('Unknown GN_ENV "' + name + '". Use one of: ' + known.join(', ') + '.');
+  }
+  return name;
+}
+
+/**
  * True when a metric argument is a plain API path such as
  * "/market/price_usd_close": slash-separated segments of letters, digits, "_"
  * and "-". Anything else (dots, "?", "#", "%", whitespace) is refused, so a
@@ -213,5 +230,6 @@ if (typeof module !== 'undefined') {
     gnJwtPayload_: gnJwtPayload_,
     gnMetricTtl_: gnMetricTtl_,
     gnParseRateLimit_: gnParseRateLimit_,
+    gnPickEnvironment_: gnPickEnvironment_,
   };
 }
