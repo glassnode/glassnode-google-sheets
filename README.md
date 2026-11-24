@@ -12,8 +12,8 @@ One formula per table: the results are ordinary numbers and dates, so charts,
 pivot tables and other formulas work on them directly.
 
 > **Status:** development build. It runs as a script bound to a test
-> spreadsheet and points at the Glassnode dev environment. It is not published
-> to the Google Workspace Marketplace.
+> spreadsheet and is not published to the Google Workspace Marketplace.
+> Production is the default environment; see [Environments](#environments).
 
 ## Contents
 
@@ -130,11 +130,32 @@ in the menu and the sidebar re-run formulas on demand:
 
 Setup, commands and releases are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+### Environments
+
+`src/Config.js` defines the environments. **Production is the default.**
+
+| Environment | Auth domain | API |
+|---|---|---|
+| `prod` (default) | `auth.glassnode.com` | `api.glassnode.com` |
+| `dev` | `auth.glassnode.tech` | `api.glassnode.tech` |
+
+To point a deployment at dev, set the script property `GN_ENV` to `dev` in the
+Apps Script editor under *Project Settings → Script Properties*. The property
+belongs to the script project: it applies to everyone using that deployment
+and cannot be changed from a spreadsheet. An unknown value is an error.
+
+The sidebar shows "Environment: dev" whenever the deployment is not on
+production. A session is tied to the environment that issued it, so switching
+environments signs the spreadsheet out.
+
+Each environment needs its own Auth0 application. See
+[docs/auth0-setup.md](docs/auth0-setup.md).
+
 ### Layout
 
 | File | Purpose |
 |---|---|
-| `src/Config.js` | Auth0 tenant, client ID and API host. The only place that names an environment. |
+| `src/Config.js` | Environments: Auth0 tenant, client ID and API host for each. |
 | `src/Auth.js` | Device flow, session storage, token refresh, sidebar API. |
 | `src/Api.js` | API client: cache, request merging, rate-limit handling. |
 | `src/Functions.js` | `GN_ASSETS` and `GN_METRIC`. |
